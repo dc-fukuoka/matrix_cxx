@@ -476,8 +476,8 @@ int main(int argc, char **argv) {
 	std::cout << "C == 0.0\n";
 
     Matrix D = 1.0;
-    if (C != 2.0)
-	std::cout << "C != 2.0\n";
+    if (D != 2.0)
+	std::cout << "D != 2.0\n";
     
     return 0;
 }
