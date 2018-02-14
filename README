@@ -84,7 +84,8 @@ time measurement: C++: std::chrono::system_clock::now(), Fortran 2003: system_cl
 -- Fortran 2003 --
 [fukuoka@selene71 f03]$ OMP_NUM_THREADS=16 KMP_AFFINITY=compact ./a.out 1024
  size:        1024
- 
+ time[s]:   9.99890000000000
+
 -- C++ --
 [fukuoka@selene71 cxx]$ OMP_NUM_THREADS=16 KMP_AFFINITY=compact ./a.out 1024
 size: 1024
