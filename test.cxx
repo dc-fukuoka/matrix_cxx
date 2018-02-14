@@ -12,7 +12,8 @@ class Matrix {
     double *mat = NULL;
     int    size = 0;
 
-    inline int idx(int i, int j) {return size*i + j;}
+    inline int idx(int i, int j) {return size*i + j;} // row major
+    
     void fill(const double val) {
 #ifdef _OPENMP
 #pragma omp parallel for
@@ -236,6 +237,7 @@ public:
 	}
 	return matrix;
     }
+    
     Matrix operator*(const Matrix &rhs) {
 	int i, j, k;
 	Matrix matrix(size);
