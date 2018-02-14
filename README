@@ -78,7 +78,7 @@ trivial test: C = C - C (=0)
 
 
 performance comparison of C = A/B between Fortran 2003 vs C++:
-matrix size 1024x1024
+matrix size: 1024x1024
 compiler: intel compiler 2018u0
 
 -- Fortran 2003 --
