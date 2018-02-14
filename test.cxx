@@ -211,30 +211,42 @@ public:
     }
     
     Matrix operator+(const Matrix &rhs) {
-	int i, j;
 	Matrix matrix(*this);
 #ifdef _OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for
 #endif
-	for (i=0; i<size; i++) {
-	    for (j=0; j<size; j++) {
-		matrix.mat[idx(i, j)] += rhs.mat[idx(i, j)];
-	    }
-	}
+	for (auto i=0; i<size*size; i++)
+	    matrix.mat[i] += rhs.mat[i];
+	return matrix;
+    }
+
+    Matrix operator+(const double rhs) {
+	Matrix matrix(*this);
+#ifdef _OPENMP
+#pragma omp parallel for
+#endif
+	for (auto i=0; i<size*size; i++)
+	    matrix.mat[i] += rhs;
 	return matrix;
     }
     
     Matrix operator-(const Matrix &rhs) {
-	int i, j;
 	Matrix matrix(*this);
 #ifdef _OPENMP
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for
 #endif
-	for (i=0; i<size; i++) {
-	    for (j=0; j<size; j++) {
-		matrix.mat[idx(i, j)] -= rhs.mat[idx(i, j)];
-	    }
-	}
+	for (auto i=0; i<size*size; i++)
+	    matrix.mat[i] -= rhs.mat[i];
+	return matrix;
+    }
+
+    Matrix operator-(const double rhs) {
+	Matrix matrix(*this);
+#ifdef _OPENMP
+#pragma omp parallel for
+#endif
+	for (auto i=0; i<size*size; i++)
+	    matrix.mat[i] -= rhs;
 	return matrix;
     }
     
@@ -254,14 +266,35 @@ public:
 	return matrix;
     }
 
+    Matrix operator*(const double rhs) {
+	int i;
+	Matrix matrix(*this);
+#ifdef _OPENMP
+#pragma omp parallel for private(i)
+#endif
+	for (i=0; i<size*size; i++)
+	    matrix.mat[i] *= rhs;
+	return matrix;
+    }
+
     Matrix operator/(const Matrix &rhs) {
-	Matrix rhs_inv(size), matrix(size);
+	Matrix rhs_inv(size), matrix(*this);
 	auto ret = inverse(rhs.mat, rhs_inv.mat);
 	if (ret) {
 	    std::cout << "LU decomposition or inverse failed.\n";
 	    return Matrix(0);
 	}
-	matrix = (*this)*rhs_inv;
+	matrix *= rhs_inv;
+	return matrix;
+    }
+
+    Matrix operator/(const double rhs) {
+	Matrix matrix(*this);
+#ifdef _OPENMP
+#pragma omp parallel for
+#endif
+	for (auto i=0; i<size*size; i++)
+	    matrix.mat[i] /= rhs;
 	return matrix;
     }
     
@@ -272,7 +305,7 @@ public:
 #pragma omp parallel for private(diff) reduction(max:max_err)
 #endif
 	for (auto i=0; i<size*size; i++) {
-	    diff    = std::abs(this->mat[i]-rhs.mat[i]);
+	    diff    = std::abs(mat[i]-rhs.mat[i]);
 	    max_err = std::max(max_err, diff);
 	}
 	if (max_err >= tol) {
@@ -289,7 +322,7 @@ public:
 #pragma omp parallel for private(diff) reduction(max:max_err)
 #endif
 	for (auto i=0; i<size*size; i++) {
-	    diff    = std::abs(this->mat[i]-rhs);
+	    diff    = std::abs(mat[i]-rhs);
 	    max_err = std::max(max_err, diff);
 	}
 	if (max_err >= tol) {
@@ -366,7 +399,7 @@ public:
     
     Matrix& inverse() {
 	Matrix inv = *this;
-	auto ret = inverse(this->mat, inv.mat);
+	auto ret = inverse(mat, inv.mat);
 	if (ret) {
 	    std::cout << __func__ << " failed.\n";
 	    fill(-1.0);
