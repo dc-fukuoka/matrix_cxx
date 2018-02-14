@@ -201,7 +201,7 @@ public:
 	return *this;
     }
 
-    Matrix& operator=(const double &val) {
+    Matrix& operator=(const double val) {
 	fill(val);
 	return *this;
     }
@@ -281,7 +281,33 @@ public:
 	}
 	return true;
     }
+
+    bool operator==(const double rhs) {
+	double diff, max_err;
+	max_err = 0.0;
+#ifdef _OPENMP
+#pragma omp parallel for private(diff) reduction(max:max_err)
+#endif
+	for (auto i=0; i<size*size; i++) {
+	    diff    = std::abs(this->mat[i]-rhs);
+	    max_err = std::max(max_err, diff);
+	}
+	if (max_err >= tol) {
+	    std::cout << "maximum error is: " << max_err << '\n';
+	    return false;
+	}
+	return true;
+    }
+    
     bool operator!=(const Matrix &rhs) {
+	if (*this == rhs) {
+	    return false;
+	} else {
+	    return true;
+	}
+    }
+
+    bool operator!=(const double rhs) {
 	if (*this == rhs) {
 	    return false;
 	} else {
@@ -394,5 +420,12 @@ int main(int argc, char **argv) {
     std::cout << "trivial test: C = C - C (=0)\n";
     C.showMatrix();
 
+    if (C == 0.0)
+	std::cout << "C == 0.0\n";
+
+    Matrix D = 1.0;
+    if (C != 2.0)
+	std::cout << "C != 2.0\n";
+    
     return 0;
 }
