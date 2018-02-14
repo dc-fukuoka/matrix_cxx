@@ -80,7 +80,7 @@ trivial test: C = C - C (=0)
 performance comparison of C = A/B between Fortran 2003 vs C++:
 matrix size: 1024x1024
 compiler: intel compiler 2018u0
-
+time measurement: C++: std::chrono::system_clock::now(), Fortran 2003: system_clock()
 -- Fortran 2003 --
 [fukuoka@selene71 f03]$ OMP_NUM_THREADS=16 KMP_AFFINITY=compact ./a.out 1024
  size:        1024
