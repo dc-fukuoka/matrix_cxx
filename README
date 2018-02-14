@@ -36,7 +36,7 @@ like the following can be performed.
 
 $ make
 icpc -std=c++11 -Wall -g -O3 -mavx -fopenmp test.cxx -mkl
-[fukuoka@selene71 cxx]$ ./a.out
+$ ./a.out
 A:
    6.71751e-01   -5.11412e-01    5.03268e-01   -5.15220e-01
   -1.42823e-01   -4.56335e-01    1.01004e-01   -7.82845e-01
@@ -80,13 +80,14 @@ trivial test: C = C - C (=0)
 performance comparison of C = A/B between Fortran 2003 vs C++:
 matrix size: 1024x1024
 compiler: intel compiler 2018u0
-time measurement: C++: std::chrono::system_clock::now(), Fortran 2003: system_clock()
+time measurement function: C++: std::chrono::system_clock::now(), Fortran 2003: system_clock()
+
 -- Fortran 2003 --
-[fukuoka@selene71 f03]$ OMP_NUM_THREADS=16 KMP_AFFINITY=compact ./a.out 1024
+$ OMP_NUM_THREADS=16 KMP_AFFINITY=compact ./a.out 1024
  size:        1024
  time[s]:   9.99890000000000
 
 -- C++ --
-[fukuoka@selene71 cxx]$ OMP_NUM_THREADS=16 KMP_AFFINITY=compact ./a.out 1024
+$ OMP_NUM_THREADS=16 KMP_AFFINITY=compact ./a.out 1024
 size: 1024
  time[s]: 9.08929
