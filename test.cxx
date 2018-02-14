@@ -267,12 +267,11 @@ public:
     }
 
     Matrix operator*(const double rhs) {
-	int i;
 	Matrix matrix(*this);
 #ifdef _OPENMP
-#pragma omp parallel for private(i)
+#pragma omp parallel for
 #endif
-	for (i=0; i<size*size; i++)
+	for (auto i=0; i<size*size; i++)
 	    matrix.mat[i] *= rhs;
 	return matrix;
     }
@@ -353,7 +352,17 @@ public:
 	return *this;
     }
 
+    Matrix& operator+=(const double rhs) {
+	*this = *this + rhs;
+	return *this;
+    }
+
     Matrix& operator-=(const Matrix &rhs) {
+	*this = *this - rhs;
+	return *this;
+    }
+
+    Matrix& operator-=(const double rhs) {
 	*this = *this - rhs;
 	return *this;
     }
@@ -363,7 +372,17 @@ public:
 	return *this;
     }
 
+    Matrix& operator*=(const double rhs) {
+	*this = *this * rhs;
+	return *this;
+    }
+
     Matrix& operator/=(const Matrix &rhs) {
+	*this = *this / rhs;
+	return *this;
+    }
+
+    Matrix& operator/=(const double rhs) {
 	*this = *this / rhs;
 	return *this;
     }
