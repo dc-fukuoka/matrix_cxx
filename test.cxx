@@ -85,7 +85,7 @@ class Matrix {
 #pragma omp parallel for private(tmp)
 #endif
 		for (j=k; j<size; j++) {
-		    tmp                  = lu[idx(ip, j)];
+		    tmp            = lu[idx(ip, j)];
 		    lu[idx(ip, j)] = lu[idx(k , j)];
 		    lu[idx(k , j)] = tmp;
 		}
@@ -96,7 +96,7 @@ class Matrix {
 #pragma omp parallel for private(tmp)
 #endif
 		for (j=0; j<k; j++) {
-		    tmp                  = lu[idx(k,  j)];
+		    tmp            = lu[idx(k,  j)];
 		    lu[idx(k,  j)] = lu[idx(ip, j)];
 		    lu[idx(ip, j)] = tmp;
 		}
@@ -272,7 +272,7 @@ public:
 #pragma omp parallel for private(diff) reduction(max:max_err)
 #endif
 	for (auto i=0; i<size*size; i++) {
-	    diff = std::abs(this->mat[i]-rhs.mat[i]);
+	    diff    = std::abs(this->mat[i]-rhs.mat[i]);
 	    max_err = std::max(max_err, diff);
 	}
 	if (max_err >= tol) {
