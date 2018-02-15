@@ -35,7 +35,6 @@ like the following can be performed.
 
 
 $ make
-icpc -std=c++11 -Wall -g -O3 -mavx -fopenmp test.cxx -mkl
 $ ./a.out
 A:
    6.71751e-01   -5.11412e-01    5.03268e-01   -5.15220e-01
