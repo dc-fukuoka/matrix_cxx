@@ -34,7 +34,11 @@ void Matrix::gen_rand(const double val_min, const double val_max, const MKL_INT 
 	
     stat = vslNewStream(&stream, brng, seed);
     assert(stat == VSL_ERROR_OK);
+#ifdef _UNIQUE_PTR
+    stat = vdRngUniform(method, stream, size*size, mat.get(), val_min, val_max);
+#else
     stat = vdRngUniform(method, stream, size*size, mat, val_min, val_max);
+#endif
     assert(stat == VSL_ERROR_OK);
     stat = vslDeleteStream(&stream);
     assert(stat == VSL_ERROR_OK);
@@ -166,29 +170,47 @@ int Matrix::inverse(double *a, double *a_inv) const {
 }
     
 Matrix::Matrix() : size(1) {
+#ifdef _UNIQUE_PTR
+    mat = std::make_unique<double[]>(size*size);
+#else
     mat = new double[size*size];
+#endif
     fill(0.0);
 }
     
 Matrix::Matrix(const int size) : size(size) {
+#ifdef _UNIQUE_PTR
+    mat = std::make_unique<double[]>(size*size);
+#else
     mat = new double[size*size];
+#endif
     fill(0.0);
 }
 Matrix::Matrix(const Matrix &matrix) : size(matrix.size) {
+#ifdef _UNIQUE_PTR
+    mat = std::make_unique<double[]>(size*size);
+#else
     mat = new double[size*size];
+#endif
     copy(matrix);
 }
     
 Matrix::~Matrix() {
+#ifndef _UNIQUE_PTR
     if (mat) delete[] mat;
+#endif
 }
     
 Matrix& Matrix::operator=(const Matrix &rhs) {
     if (this != &rhs) {
 	if (size != rhs.size) {
-	    delete[] mat;
 	    size = rhs.size;
+#ifdef _UNIQUE_PTR
+	    mat = std::make_unique<double[]>(size*size);
+#else
+	    delete[] mat;
 	    mat = new double[size*size];
+#endif
 	}
 	copy(rhs);
     }
@@ -272,7 +294,11 @@ Matrix Matrix::operator*(const double rhs) {
 
 Matrix Matrix::operator/(const Matrix &rhs) {
     Matrix rhs_inv(size), matrix(*this);
+#ifdef _UNIQUE_PTR
+    auto ret = inverse(rhs.mat.get(), rhs_inv.mat.get());
+#else
     auto ret = inverse(rhs.mat, rhs_inv.mat);
+#endif
     if (ret) {
 	std::cout << "LU decomposition or inverse failed.\n";
 	return Matrix(0);
@@ -416,7 +442,11 @@ Matrix& Matrix::transpose() {
     
 Matrix& Matrix::inverse() {
     Matrix inv = *this;
+#ifdef _UNIQUE_PTR
+    auto ret = inverse(mat.get(), inv.mat.get());
+#else
     auto ret = inverse(mat, inv.mat);
+#endif
     if (ret) {
 	std::cout << __func__ << " failed.\n";
 	fill(-1.0);

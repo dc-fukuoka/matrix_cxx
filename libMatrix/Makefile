@@ -1,5 +1,5 @@
 CXX       = $(shell printenv CXX)
-CXXFLAGS  = -std=c++11 -g -O3 -mavx -fpic -MMD -MP -Wall
+CXXFLAGS  = -std=c++14 -g -O3 -mavx -fpic -MMD -MP -Wall
 OPENMP    = -fopenmp
 ifeq ($(CXX), icpc)
 CPPFLAGS  = -I.
@@ -14,6 +14,8 @@ SRCS      = Matrix.cxx
 OBJS      = $(SRCS:%.cxx=%.o)
 DEPS      = $(SRCS:%.cxx=%.d)
 BIN       = libMatrix.so
+
+CPPFLAGS += -D_UNIQUE_PTR
 
 .SUFFIXES: .cxx .o
 .PHONY: clean

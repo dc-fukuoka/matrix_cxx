@@ -1,10 +1,15 @@
 #pragma once
+#include <memory>
 #include <mkl.h>
 
 class Matrix {
     const double tol = 1.0e-10;
     // matrix(size, size)
+#ifdef _UNIQUE_PTR
+    std::unique_ptr<double[]> mat = nullptr;
+#else
     double *mat = NULL;
+#endif
     int    size = 0;
 
     inline int idx(int i, int j) const;
