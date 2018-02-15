@@ -29,4 +29,4 @@ ALL: $(BIN)
 -include $(DEPS)
 
 clean:
-	rm -f *.o *.d *~ $(BIN)
+	rm -f $(OBJS) $(DEPS) *~ $(BIN)
