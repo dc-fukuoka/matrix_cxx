@@ -2,28 +2,28 @@ this is the same as f03_exercise, but with C++.
 like the following can be performed.
 
     Matrix A(size), B(size), C(size);
-    A.setMatrix(-1.0, 1.0, 5555);
-    B.setMatrix(-2.0, 2.0, 7777);
+    A.set(-1.0, 1.0, 5555);
+    B.set(-2.0, 2.0, 7777);
 
     A.transpose();
     B.transpose();
     C = 0.0;
 
     std::cout << "A:\n";
-    A.showMatrix();
+    A.show();
     std::cout << "B:\n";
-    B.showMatrix();
+    B.show();
     C += A;
     C -= A;
     std::cout << "C: \n";
-    C.showMatrix();
+    C.show();
     C = A*B;
     std::cout << "C = A*B\n";
-    C.showMatrix();
+    C.show();
 
     C /= B;
     std::cout << "C /= B(= A)\n";
-    C.showMatrix();
+    C.show();
     if (C == A)
         std::cout << "C == A\n";
     if (A != B)
@@ -31,7 +31,7 @@ like the following can be performed.
 
     Matrix Ainv = A.inverse();
     std::cout << "Ainv = A^-1\n";
-    Ainv.showMatrix();
+    Ainv.show();
 
 
 $ make

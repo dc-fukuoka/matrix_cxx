@@ -42,9 +42,9 @@ public:
     Matrix& operator*=(const double rhs);
     Matrix& operator/=(const Matrix &rhs);
     Matrix& operator/=(const double rhs);
-    void setMatrix(const double val_min, const double val_max, const int seed);
-    void showMatrix();
+    void set(const double val_min, const double val_max, const int seed);
+    void set(const int i, const int j, const double val);
+    void show();
     Matrix& transpose();
     Matrix& inverse();
-    void set_at(const int i, const int j, const double val);
 };

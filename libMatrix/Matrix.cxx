@@ -381,11 +381,15 @@ Matrix& Matrix::operator/=(const double rhs) {
     return *this;
 }
     
-void Matrix::setMatrix(const double val_min, const double val_max, const int seed) {
+void Matrix::set(const double val_min, const double val_max, const int seed) {
     gen_rand(val_min, val_max, seed);
 }
+
+void Matrix::set(const int i, const int j, const double val) {
+    mat[idx(i, j)] = val;
+}
     
-void Matrix::showMatrix() {
+void Matrix::show() {
     for (auto i=0; i<size; i++) {
 	for (auto j=0; j<size; j++) {
 	    std::cout << std::setw(14) << std::setprecision(5) << std::scientific <<mat[idx(i, j)] << " ";
@@ -418,7 +422,4 @@ Matrix& Matrix::inverse() {
 	fill(-1.0);
     }
     return *this;
-}
-void Matrix::set_at(const int i, const int j, const double val) {
-    mat[idx(i, j)] = val;
 }
