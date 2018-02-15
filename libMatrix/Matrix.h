@@ -20,7 +20,7 @@ public:
     Matrix(const Matrix &matrix);
     virtual ~Matrix();
     Matrix& operator=(const Matrix &rhs);
-    Matrix& operator=(const double val);
+    Matrix& operator=(const double rhs);
     double operator[] (const int i);
     Matrix operator+(const Matrix &rhs);
     Matrix operator+(const double rhs);

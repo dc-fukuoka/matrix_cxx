@@ -195,8 +195,8 @@ Matrix& Matrix::operator=(const Matrix &rhs) {
     return *this;
 }
 
-Matrix& Matrix::operator=(const double val) {
-    fill(val);
+Matrix& Matrix::operator=(const double rhs) {
+    fill(rhs);
     return *this;
 }
     
