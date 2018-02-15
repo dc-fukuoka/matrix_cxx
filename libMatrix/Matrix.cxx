@@ -7,7 +7,7 @@
 #include <mkl.h>
 #include "Matrix.h"
 
-inline int Matrix::idx(int i, int j) {return size*i + j;} // row major
+inline int Matrix::idx(int i, int j) const {return size*i + j;} // row major
     
 void Matrix::fill(const double val) {
 #ifdef _OPENMP
@@ -26,7 +26,7 @@ void Matrix::copy(const Matrix &matrix) {
     }
 }
     
-void Matrix::gen_rand(const double val_min, const double val_max, const MKL_INT seed) {
+void Matrix::gen_rand(const double val_min, const double val_max, const MKL_INT seed) const {
     VSLStreamStatePtr stream;
     int stat;
     MKL_INT brng = VSL_BRNG_MT19937;
@@ -40,7 +40,7 @@ void Matrix::gen_rand(const double val_min, const double val_max, const MKL_INT 
     assert(stat == VSL_ERROR_OK);
 }
     
-int Matrix::lu_decomp(const double *a, int *ipivot, double *lu) {
+int Matrix::lu_decomp(const double *a, int *ipivot, double *lu) const {
     int i, j, k;
     int ip, tmp_ip;
     double tmp, max0, w;
@@ -109,7 +109,7 @@ int Matrix::lu_decomp(const double *a, int *ipivot, double *lu) {
     return 0;
 }
     
-int Matrix::inverse(double *a, double *a_inv) {
+int Matrix::inverse(double *a, double *a_inv) const {
     double lu[size*size];
     int ipivot[size];
     int i, j, k;
@@ -200,7 +200,7 @@ Matrix& Matrix::operator=(const double rhs) {
     return *this;
 }
     
-double Matrix::operator[] (const int i) {
+double Matrix::operator[] (const int i) const {
     return mat[i];
 }
     
@@ -291,7 +291,7 @@ Matrix Matrix::operator/(const double rhs) {
     return matrix;
 }
     
-bool Matrix::operator==(const Matrix &rhs) {
+bool Matrix::operator==(const Matrix &rhs) const {
     double diff, max_err;
     max_err = 0.0;
 #ifdef _OPENMP
@@ -308,7 +308,7 @@ bool Matrix::operator==(const Matrix &rhs) {
     return true;
 }
 
-bool Matrix::operator==(const double rhs) {
+bool Matrix::operator==(const double rhs) const {
     double diff, max_err;
     max_err = 0.0;
 #ifdef _OPENMP
@@ -325,7 +325,7 @@ bool Matrix::operator==(const double rhs) {
     return true;
 }
     
-bool Matrix::operator!=(const Matrix &rhs) {
+bool Matrix::operator!=(const Matrix &rhs) const {
     if (*this == rhs) {
 	return false;
     } else {
@@ -333,7 +333,7 @@ bool Matrix::operator!=(const Matrix &rhs) {
     }
 }
 
-bool Matrix::operator!=(const double rhs) {
+bool Matrix::operator!=(const double rhs) const {
     if (*this == rhs) {
 	return false;
     } else {
@@ -389,7 +389,7 @@ void Matrix::set(const int i, const int j, const double val) {
     mat[idx(i, j)] = val;
 }
     
-void Matrix::show() {
+void Matrix::show() const {
     for (auto i=0; i<size; i++) {
 	for (auto j=0; j<size; j++) {
 	    std::cout << std::setw(14) << std::setprecision(5) << std::scientific <<mat[idx(i, j)] << " ";

@@ -7,12 +7,12 @@ class Matrix {
     double *mat = NULL;
     int    size = 0;
 
-    inline int idx(int i, int j);
+    inline int idx(int i, int j) const;
     void fill(const double val);
     void copy(const Matrix &matrix);
-    void gen_rand(const double val_min, const double val_max, const MKL_INT seed);
-    int lu_decomp(const double *a, int *ipivot, double *lu);
-    int inverse(double *a, double *a_inv);
+    void gen_rand(const double val_min, const double val_max, const MKL_INT seed) const;
+    int lu_decomp(const double *a, int *ipivot, double *lu) const;
+    int inverse(double *a, double *a_inv) const;
     
 public:
     Matrix();
@@ -21,7 +21,7 @@ public:
     virtual ~Matrix();
     Matrix& operator=(const Matrix &rhs);
     Matrix& operator=(const double rhs);
-    double operator[] (const int i);
+    double operator[](const int i) const;
     Matrix operator+(const Matrix &rhs);
     Matrix operator+(const double rhs);
     Matrix operator-(const Matrix &rhs);
@@ -30,10 +30,10 @@ public:
     Matrix operator*(const double rhs);
     Matrix operator/(const Matrix &rhs);
     Matrix operator/(const double rhs);
-    bool operator==(const Matrix &rhs);
-    bool operator==(const double rhs);
-    bool operator!=(const Matrix &rhs);
-    bool operator!=(const double rhs);
+    bool operator==(const Matrix &rhs) const;
+    bool operator==(const double rhs) const;
+    bool operator!=(const Matrix &rhs) const;
+    bool operator!=(const double rhs) const;
     Matrix& operator+=(const Matrix &rhs);
     Matrix& operator+=(const double rhs);
     Matrix& operator-=(const Matrix &rhs);
@@ -44,7 +44,7 @@ public:
     Matrix& operator/=(const double rhs);
     void set(const double val_min, const double val_max, const int seed);
     void set(const int i, const int j, const double val);
-    void show();
+    void show() const;
     Matrix& transpose();
     Matrix& inverse();
 };
