@@ -1,3 +1,4 @@
+#pragma once
 #include <mkl.h>
 
 class Matrix {
