@@ -1,5 +1,7 @@
 #pragma once
+#ifdef _UNIQUE_PTR
 #include <memory>
+#endif
 #include <mkl.h>
 
 class Matrix {
