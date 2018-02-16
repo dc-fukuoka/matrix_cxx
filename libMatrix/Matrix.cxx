@@ -424,32 +424,32 @@ void Matrix::show() const {
     }
 }
 
-Matrix& Matrix::transpose() {
+Matrix Matrix::transpose() {
     // not good...
     Matrix tmp = *this;
+    Matrix matrix(size);
     int i, j;
 #ifdef _OPENMP
 #pragma omp parallel for private(i, j)
 #endif
     for (i=0; i<size; i++) {
 	for (j=0; j<size; j++) {
-	    if (i != j)
-		mat[idx(i, j)] = tmp.mat[idx(j, i)];
+	    matrix.mat[idx(i, j)] = tmp.mat[idx(j, i)];
 	}
     }
-    return *this;
+    return matrix;
 }
     
-Matrix& Matrix::inverse() {
-    Matrix inv = *this;
+Matrix Matrix::inverse() {
+    Matrix inv(size);
 #ifdef _UNIQUE_PTR
     auto ret = inverse(mat.get(), inv.mat.get());
 #else
     auto ret = inverse(mat, inv.mat);
 #endif
     if (ret) {
-	std::cout << __func__ << " failed.\n";
+	std::cout << __func__ << "() failed.\n";
 	fill(-1.0);
     }
-    return *this;
+    return inv;
 }

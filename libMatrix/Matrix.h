@@ -50,6 +50,6 @@ public:
     void set(const double val_min, const double val_max, const int seed);
     void set(const int i, const int j, const double val);
     void show() const;
-    Matrix& transpose();
-    Matrix& inverse();
+    Matrix transpose();
+    Matrix inverse();
 };
