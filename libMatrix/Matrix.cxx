@@ -226,7 +226,7 @@ double Matrix::operator[] (const int i) const {
     return mat[i];
 }
     
-Matrix Matrix::operator+(const Matrix &rhs) {
+Matrix Matrix::operator+(const Matrix &rhs) const {
     Matrix matrix(*this);
 #ifdef _OPENMP
 #pragma omp parallel for
@@ -236,7 +236,7 @@ Matrix Matrix::operator+(const Matrix &rhs) {
     return matrix;
 }
 
-Matrix Matrix::operator+(const double rhs) {
+Matrix Matrix::operator+(const double rhs) const {
     Matrix matrix(*this);
 #ifdef _OPENMP
 #pragma omp parallel for
@@ -246,7 +246,7 @@ Matrix Matrix::operator+(const double rhs) {
     return matrix;
 }
     
-Matrix Matrix::operator-(const Matrix &rhs) {
+Matrix Matrix::operator-(const Matrix &rhs) const {
     Matrix matrix(*this);
 #ifdef _OPENMP
 #pragma omp parallel for
@@ -256,7 +256,7 @@ Matrix Matrix::operator-(const Matrix &rhs) {
     return matrix;
 }
 
-Matrix Matrix::operator-(const double rhs) {
+Matrix Matrix::operator-(const double rhs) const {
     Matrix matrix(*this);
 #ifdef _OPENMP
 #pragma omp parallel for
@@ -266,7 +266,7 @@ Matrix Matrix::operator-(const double rhs) {
     return matrix;
 }
     
-Matrix Matrix::operator*(const Matrix &rhs) {
+Matrix Matrix::operator*(const Matrix &rhs) const {
     int i, j, k;
     Matrix matrix(size);
 #ifdef _OPENMP
@@ -282,7 +282,7 @@ Matrix Matrix::operator*(const Matrix &rhs) {
     return matrix;
 }
 
-Matrix Matrix::operator*(const double rhs) {
+Matrix Matrix::operator*(const double rhs) const {
     Matrix matrix(*this);
 #ifdef _OPENMP
 #pragma omp parallel for
@@ -292,7 +292,7 @@ Matrix Matrix::operator*(const double rhs) {
     return matrix;
 }
 
-Matrix Matrix::operator/(const Matrix &rhs) {
+Matrix Matrix::operator/(const Matrix &rhs) const {
     Matrix rhs_inv(size), matrix(*this);
 #ifdef _UNIQUE_PTR
     auto ret = inverse(rhs.mat.get(), rhs_inv.mat.get());
@@ -307,7 +307,7 @@ Matrix Matrix::operator/(const Matrix &rhs) {
     return matrix;
 }
 
-Matrix Matrix::operator/(const double rhs) {
+Matrix Matrix::operator/(const double rhs) const {
     Matrix matrix(*this);
 #ifdef _OPENMP
 #pragma omp parallel for
