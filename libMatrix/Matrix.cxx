@@ -453,3 +453,45 @@ Matrix Matrix::inverse() {
     }
     return inv;
 }
+
+double Matrix::trace() const {
+    double tr = 0.0;
+#ifdef _OPENMP
+#pragma omp parallel for reduction(+:tr)
+#endif
+    for (auto i=0; i<size; i++)
+	tr += mat[idx(i, i)];
+
+    return tr;
+}
+double Matrix::determinant() const {
+    double det = 1.0;
+    double lu[size*size];
+    int ipivot[size];
+    int i, j;
+#ifdef _OPENMP
+#pragma omp parallel for private(i, j)
+#endif
+    for (i=0; i<size; i++) {
+	ipivot[i] = 0;
+	for (j=0; j<size; j++)
+	    lu[idx(i, j)]     = 0.0;
+    }
+#ifdef _UNIQUE_PTR
+    int ret = lu_decomp(mat.get(), ipivot, lu);
+#else
+    int ret = lu_decomp(mat, ipivot, lu);
+#endif
+    if (ret) {
+	std::cout << "LU decomposition failed.\n";
+	return 1.0*ret;
+    }
+    
+#ifdef _OPENMP
+#pragma omp parallel for reduction(*:det)
+#endif
+    for (auto i=0; i<size; i++)
+	det *= lu[idx(i, i)];
+
+    return det;
+}

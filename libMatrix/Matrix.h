@@ -52,4 +52,6 @@ public:
     void show() const;
     Matrix transpose();
     Matrix inverse();
+    double trace() const;
+    double determinant() const;
 };
