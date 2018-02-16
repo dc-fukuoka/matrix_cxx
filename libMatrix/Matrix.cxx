@@ -424,9 +424,9 @@ void Matrix::show() const {
     }
 }
 
-Matrix Matrix::transpose() {
+Matrix Matrix::transpose() const {
     // not good...
-    Matrix tmp = *this;
+    Matrix tmp(*this);
     Matrix matrix(size);
     int i, j;
 #ifdef _OPENMP
@@ -440,7 +440,7 @@ Matrix Matrix::transpose() {
     return matrix;
 }
     
-Matrix Matrix::inverse() {
+Matrix Matrix::inverse() const {
     Matrix inv(size);
 #ifdef _UNIQUE_PTR
     auto ret = inverse(mat.get(), inv.mat.get());
@@ -449,7 +449,7 @@ Matrix Matrix::inverse() {
 #endif
     if (ret) {
 	std::cout << __func__ << "() failed.\n";
-	fill(-1.0);
+	inv = -1.0;
     }
     return inv;
 }
