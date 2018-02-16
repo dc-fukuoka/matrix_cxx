@@ -1,5 +1,5 @@
 CXX       = $(shell printenv CXX)
-CXXFLAGS  = -std=c++11 -g -O3 -mavx -MMD -MP -Wall
+CXXFLAGS  = -std=c++14 -g -O3 -mavx -MMD -MP -Wall
 OPENMP    = -fopenmp
 CPPFLAGS  = -I./libMatrix
 LIBS      = -lMatrix
