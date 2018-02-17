@@ -15,7 +15,7 @@ class Matrix {
     int    size = 0;
 
     inline int idx(int i, int j) const;
-    void fill(const double val);
+    void fill(const double val) const;
     void copy(const Matrix &matrix);
     void gen_rand(const double val_min, const double val_max, const MKL_INT seed) const;
     int lu_decomp(const double *a, int *ipivot, double *lu) const;

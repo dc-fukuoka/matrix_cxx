@@ -9,7 +9,7 @@
 
 inline int Matrix::idx(int i, int j) const {return size*i + j;} // row major
     
-void Matrix::fill(const double val) {
+void Matrix::fill(const double val) const {
 #ifdef _OPENMP
 #pragma omp parallel for
 #endif
