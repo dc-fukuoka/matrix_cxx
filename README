@@ -21,7 +21,7 @@ like the following can be performed.
     std::cout << "C = A*B\n";
     C.show();
 
-    C /= B;
+    C /= B; // C = C * B^-1
     std::cout << "C /= B(= A)\n";
     C.show();
     if (C == A)
